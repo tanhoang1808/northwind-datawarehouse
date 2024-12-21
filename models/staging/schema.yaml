@@ -1,0 +1,105 @@
+version: 2
+models:
+  - name : stg_employee
+    columns:
+        - name : employee_id
+          tests:
+            - unique
+            - not_null
+  - name: stg_customer
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+          
+  - name : stg_employee_privileges
+    columns:
+        - name : privilege_id
+          tests:
+           - unique
+           - not_null
+           
+  - name : stg_inventory_transaction_types
+    columns:
+        - name : id
+          tests: 
+            - not_null
+            - unique
+  - name : stg_inventory_transactions
+    columns:
+      - name : id
+        tests:
+           - not_null
+           - unique
+  - name : stg_invoices
+    columns :
+      - name : id
+        tests: 
+          - not_null
+          - unique
+
+  - name : stg_order_details_status
+    columns:
+      - name : id
+        tests:
+          - unique
+          - not_null
+
+  - name : stg_order_details
+    columns:
+      - name : id
+        tests:
+          - unique
+          - not_null
+
+  - name : stg_order_status
+    columns:
+      - name : id
+        tests:
+          - unique
+          - not_null
+  - name : stg_orders_tax_status
+    columns:
+      - name : id
+        tests:
+          - unique
+          - not_null
+  - name : stg_orders
+    columns:
+      - name : id
+        tests: 
+           - not_null
+           - unique
+  - name : stg_privileges
+    columns:
+      - name : id
+        tests:
+          - not_null
+          - unique
+  - name : stg_products
+    columns:
+      - name : product_id
+        tests:
+          - unique
+          - not_null
+  - name : stg_purchase_order_details
+    columns:
+      - name : id
+        tests:
+          - unique
+          - not_null
+  - name : stg_purchase_orders
+    columns:
+        - name : id
+          tests:
+            - unique
+            - not_null
+
+  - name : stg_sales_reports
+  - name : stg_suppliers
+    columns:
+        - name : id
+          tests:
+              - unique
+              - not_null
