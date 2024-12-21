@@ -46,7 +46,8 @@ from source
 )
 
 select 
-* 
-exclude row_number
+*  exclude row_number
+,
+current_timestamp() as insertion_timestamp 
 from unique_source
 where row_number = 1
