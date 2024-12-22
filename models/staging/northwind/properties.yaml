@@ -20,9 +20,6 @@ models:
           - unique
           - not_null
 
-      - name: employee_id
-        tests:
-
   - name: northwind_stg__inventory_transaction_types
     columns:
       - name: id
@@ -95,6 +92,7 @@ models:
       - name: quantity
         tests:
           - greater_than_zero
+
   - name: northwind_stg__purchase_orders
     columns:
       - name: id

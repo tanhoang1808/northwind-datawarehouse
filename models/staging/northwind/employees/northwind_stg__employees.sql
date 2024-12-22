@@ -33,5 +33,5 @@ WITH source AS
 SELECT  * exclude ROW_NUMBER
 
        ,current_timestamp() AS insertion_timestamp
-FROM unique_source
+FROM unique_source 
 WHERE ROW_NUMBER = 1
