@@ -6,7 +6,7 @@ WITH source AS
 	)}}
 ), unique_source AS
 (
-	SELECT  id                                                                                        AS product_id
+	SELECT  id AS product_id
 	       ,product_code
 	       ,product_name
 	       ,description
@@ -18,6 +18,7 @@ WITH source AS
 	       ,discontinued
 	       ,minimum_reorder_quantity
 	       ,category
+		   ,supplier_ids as supplier_id
 	       ,ROW_NUMBER() over(PARTITION BY product_id,product_code,product_name ORDER BY  product_id) AS row_number
 
 	       ,current_timestamp()                                                                       AS insertion_timestamp

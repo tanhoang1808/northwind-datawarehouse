@@ -101,7 +101,7 @@ models:
           - not_null
 
   - name: northwind_stg__sales_reports
-  - name: stg_suppliers
+  - name: northwind_stg__suppliers
     columns:
       - name: id
         tests:

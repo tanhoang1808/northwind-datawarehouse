@@ -6,7 +6,7 @@ WITH source AS
 	)}}
 ), unique_source AS
 (
-	SELECT  id
+	SELECT  id as order_id
 	       ,employee_id
 	       ,customer_id
 	       ,order_date
@@ -27,7 +27,7 @@ WITH source AS
 	       ,tax_status_id
 	       ,status_id
 
-	       ,current_timestamp()                             AS insertion_timestamp
+	       ,current_timestamp() AS insertion_timestamp
 	       ,ROW_NUMBER() over(PARTITION BY id ORDER BY  id) AS row_number
 	FROM source
 )

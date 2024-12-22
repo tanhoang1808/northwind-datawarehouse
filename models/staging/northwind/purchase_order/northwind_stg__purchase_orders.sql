@@ -6,7 +6,7 @@ WITH source AS
 	)}}
 ), unique_source AS
 (
-	SELECT  id
+	SELECT  id AS purchase_order_id
 	       ,supplier_id
 	       ,created_by
 	       ,submitted_date
@@ -16,11 +16,12 @@ WITH source AS
 	       ,shipping_fee
 	       ,taxes
 	       ,payment_amount
+		   ,payment_date
 	       ,CASE WHEN payment_method is null THEN 'Anonymous'  ELSE payment_method END AS payment_method
 	       ,approved_by
 	       ,approved_date
 	       ,submitted_by
-
+		
 	       ,current_timestamp()  AS insertion_timestamp
 	       ,ROW_NUMBER() over(PARTITION BY id,supplier_id ORDER BY  id) AS row_number
 	FROM source
