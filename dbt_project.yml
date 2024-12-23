@@ -34,12 +34,14 @@ models:
       +materialized: view
       +enabled: true
       +schema: stg_northwind
-    warehouse:
-      +schema: wh_northwind
+    mart:
+      +schema: mart_northwind
       dimension:
+        +materialized: table
+      fact:
         +materialized: table
 
 seeds:
   northwind_project_dbt_ytb:
     database: northwind
-    +schema: RAW
+    +schema: NORTHWIND_RAW
