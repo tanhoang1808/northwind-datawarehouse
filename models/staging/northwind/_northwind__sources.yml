@@ -1,7 +1,7 @@
 version: 2
 sources:
-  - name: RAW
-    schema: RAW
+  - name: NORTHWIND_RAW
+    schema: DEV_NORTHWIND_RAW
     tables:
       - name: customer
       - name: employee_privileges

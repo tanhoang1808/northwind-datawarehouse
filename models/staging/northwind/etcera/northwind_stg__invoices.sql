@@ -2,7 +2,7 @@ WITH source AS
 (
 	SELECT  *
 	FROM {{source
-	('RAW', 'invoices'
+	('NORTHWIND_RAW', 'invoices'
 	)}}
 ), unique_source AS
 (

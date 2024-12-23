@@ -19,7 +19,7 @@ WITH source AS
 	       ,cast(notes AS varchar) AS notes
 	       ,cast(notes AS varchar) AS attachments
 	FROM {{source
-	('RAW', 'customer'
+	('NORTHWIND_RAW', 'customer'
 	)}}
 ), unique_source AS
 (
