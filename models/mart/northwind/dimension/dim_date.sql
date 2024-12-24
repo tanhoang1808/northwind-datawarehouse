@@ -1,4 +1,8 @@
 -- Tạo bảng tạm lưu danh sách ngày
+
+
+
+
 WITH RECURSIVE date_array AS (
     SELECT 
         DATE('2001-01-01') AS time_stamp

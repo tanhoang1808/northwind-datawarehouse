@@ -1,3 +1,12 @@
+{{{{
+  config(
+    materialized = 'table',
+    )
+}}}}
+
+
+
+
 with source as (
     select
     employee_id,

@@ -1,3 +1,10 @@
+
+{{{{
+  config(
+    materialized = 'table',
+    )
+}}}}
+
 with source as (
     select 
     c.customer_id,
