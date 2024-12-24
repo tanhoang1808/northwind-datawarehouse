@@ -1,0 +1,163 @@
+version: 2
+
+models:
+  ### FACT_INVENTORY ###
+  - name: fact_inventory
+    columns:
+      - name: inventory_purchase_order_id
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - relationships:
+              to: ref('northwind_stg__inventory_purchase_order')
+              field: inventory_purchase_order_id
+      - name: purchase_order_id
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - relationships:
+              to: ref('northwind_stg__purchase_order')
+              field: purchase_order_id
+      - name: product_id
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - relationships:
+              to: ref('northwind_stg__products')
+              field: product_id
+      - name: quantity
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_not_be_null
+      - name: type_name
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_in_set:
+              value_set: ["Sold", "Purchased", "On Hold"]
+      - name: transaction_created_date
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [date, datetime, timestamp, timestamp_ntz]
+      - name: transaction_modified_date
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [date, datetime, timestamp, timestamp_ntz]
+
+  ### FACT_PURCHASE_ORDER ###
+  - name: fact_purchase_order
+    description: "Fact_inventory"
+    columns:
+      - name: approved_by
+        tests:
+          - relationships:
+              to: ref('northwind_stg__employees')
+              field: employee_id
+      - name: approved_date
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [date, datetime, timestamp, timestamp_ntz]
+      - name: submitted_date
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [date, datetime, timestamp, timestamp_ntz]
+          - not_null
+      - name: creation_date
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [date, datetime, timestamp, timestamp_ntz]
+      - name: customer_id
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - relationships:
+              to: ref('northwind_stg__customer')
+              field: customer_id
+      - name: employee_id
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - relationships:
+              to: ref('northwind_stg__employees')
+              field: employee_id
+      - name: payment_amount
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [float, number, decimal]
+      - name: quantity
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: number
+
+  ### FACT_SALES ###
+  - name: fact_sales
+    columns:
+      - name: customer_id
+        tests:
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - relationships:
+              to: ref('northwind_stg__customer')
+              field: customer_id
+      - name: discount
+        tests:
+          - dbt_expectations.expect_column_to_exist
+
+      - name: employee_id
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_to_exist
+          - relationships:
+              to: ref('northwind_stg__employees')
+              field: employee_id
+      - name: inventory_id
+        tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: order_date
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [date, datetime, timestamp, timestamp_ntz]
+      - name: order_id
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_to_exist
+          - relationships:
+              to: ref('northwind_stg__orders')
+              field: order_id
+      - name: paid_date
+        tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: product_id
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_to_exist
+      - name: purchase_order_id
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_to_exist
+          - relationships:
+              to: ref('northwind_stg__purchase_order')
+              field: purchase_order_id
+      - name: quantity
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: number
+      - name: shipped_date
+        tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: status_id
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_to_exist
+      - name: unit_price
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list: [number, float]

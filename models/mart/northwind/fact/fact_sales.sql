@@ -2,6 +2,7 @@ with source as (
     select
     o.order_id,
     p.product_id,
+    p.product_name,
     c.customer_id,
     e.employee_id,
     od.quantity,

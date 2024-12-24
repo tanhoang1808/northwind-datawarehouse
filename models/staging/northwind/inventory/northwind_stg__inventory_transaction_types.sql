@@ -6,13 +6,12 @@ WITH source AS
 	)}}
 ), unique_source AS
 (
-	SELECT  
-	id as transaction_types_id,
-	type_name
+	SELECT  id                                                        AS inventory_transaction_types_id
+	       ,type_name
 	       ,ROW_NUMBER() over(PARTITION BY id,type_name ORDER BY  id) AS row_number
 	FROM source
 )
-SELECT  * exclude row_number
+SELECT  * exclude ROW_NUMBER
 
        ,current_timestamp() AS insertion_timestamp
 FROM unique_source

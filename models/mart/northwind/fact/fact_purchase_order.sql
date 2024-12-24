@@ -4,6 +4,8 @@ with source as (
     e.employee_id,
     po.purchase_order_id,
     p.product_id,
+    p.product_name,
+    p.product_code,
     pod.quantity,
     pod.unit_cost,
     pod.date_received,
