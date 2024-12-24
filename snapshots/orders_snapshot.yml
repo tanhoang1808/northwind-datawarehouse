@@ -1,0 +1,12 @@
+snapshots:
+  - name: sns_order
+    relation: source('NORTHWIND_RAW','orders')
+    description: "Check how long when one order will be paid"
+    config:
+      database: northwind
+      schema: snapshot_northwind_stg__orders
+      strategy: timestamp
+      unique_key: id
+      updated_at: paid_date
+      hard_deletes: new_record
+      dbt_valid_to_current: current_timestamp()

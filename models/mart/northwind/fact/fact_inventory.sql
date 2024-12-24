@@ -1,9 +1,9 @@
-{{{{
+{{
   config(
-    materialized = 'table',
+    materialized = 'incremental',
+    on_schema_change = 'fail'
     )
-}}}}
-
+}}
 
 with source as (
     select
@@ -33,4 +33,18 @@ with source as (
     LEFT JOIN {{ref('northwind_stg__purchase_order_details')}} pod
     ON pod.purchase_order_id = po.purchase_order_id
 )
-select * from source
+
+select 
+*
+from source
+where 
+{% if is_incremental() %}
+  {% if var("start_date", False) and var("end_date", False) %}
+    transaction_created_date >= '{{ var("start_date") }}'
+    AND transaction_created_date < '{{ var("end_date") }}'
+  {% else %}
+    paid_date > (SELECT MAX(transaction_created_date) FROM {{ this }})
+  {% endif %}
+{% else %}
+  1=1
+{% endif %}

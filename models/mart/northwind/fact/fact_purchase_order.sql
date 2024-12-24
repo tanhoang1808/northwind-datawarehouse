@@ -1,9 +1,9 @@
-
-{{{{
+{{
   config(
-    materialized = 'table',
+    materialized = 'incremental',
+    on_schema_change = 'fail'
     )
-}}}}
+}}
 
 with source as (
     select 
@@ -50,5 +50,17 @@ with source as (
     
 )
 
-
-select * from source
+select 
+*
+from source
+where 
+{% if is_incremental() %}
+  {% if var("start_date", False) and var("end_date", False) %}
+    creation_date >= '{{ var("start_date") }}'
+    AND creation_date < '{{ var("end_date") }}'
+  {% else %}
+    creation_date > (SELECT MAX(creation_date) FROM {{ this }})
+  {% endif %}
+{% else %}
+  1=1
+{% endif %}

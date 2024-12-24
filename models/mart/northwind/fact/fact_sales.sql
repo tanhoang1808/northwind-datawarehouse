@@ -1,9 +1,9 @@
-{{{{
+{{
   config(
-    materialized = 'table',
-    )
-}}}}
-
+    materialized = 'incremental',
+    on_schema_change = 'fail'
+  )
+}}
 
 with source as (
     select
@@ -36,6 +36,17 @@ with source as (
     ON c.customer_id = o.customer_id
 )
 
-select * from source
-
-
+select 
+*
+from source
+where 
+{% if is_incremental() %}
+  {% if var("start_date", False) and var("end_date", False) %}
+    paid_date >= '{{ var("start_date") }}'
+    AND paid_date < '{{ var("end_date") }}'
+  {% else %}
+    paid_date > (SELECT MAX(paid_date) FROM {{ this }})
+  {% endif %}
+{% else %}
+  1=1
+{% endif %}

@@ -1,9 +1,8 @@
-{{{{
+{{
   config(
-    materialized = 'table',
+    materialized = 'table'
     )
-}}}}
-
+}}
 
 
 with source as (
