@@ -1,7 +1,3 @@
--- Tạo bảng tạm lưu danh sách ngày
-
-
-
 
 WITH RECURSIVE date_array AS (
     SELECT 
