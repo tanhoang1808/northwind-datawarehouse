@@ -26,6 +26,6 @@ The purpose of this project is to demonstrate my knowledge and capability in tra
 ### Fact and Dimension Representation:
 
 The Fact-Dimension model can be represented in the physical layer as shown below:  
-![Fact-Dimension Model](assets/model.png)
+![Fact-Dimension Model](assets/northwind_phyical.png)
 
 {% enddocs %}
