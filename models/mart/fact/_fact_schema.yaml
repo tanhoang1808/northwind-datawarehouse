@@ -4,19 +4,22 @@ models:
   ### FACT_INVENTORY ###
   - name: fact_inventory
     columns:
-      - name: inventory_purchase_order_id
+      - name: inventory_transactions_id
+        constraint:
+          - type: primary_key
         tests:
           - dbt_expectations.expect_column_to_exist
-          - relationships:
-              to: ref('northwind_stg__inventory_purchase_order')
-              field: inventory_purchase_order_id
       - name: purchase_order_id
+        constraint:
+          - type: foreign_key
         tests:
           - dbt_expectations.expect_column_to_exist
           - relationships:
               to: ref('northwind_stg__purchase_order')
               field: purchase_order_id
       - name: product_id
+        constraint:
+          - type: foreign_key
         tests:
           - dbt_expectations.expect_column_to_exist
           - relationships:
@@ -44,9 +47,20 @@ models:
 
   ### FACT_PURCHASE_ORDER ###
   - name: fact_purchase_order
-    description: "Fact_inventory"
+    description: "fact_purchase_order"
     columns:
+      - name: unique_key
+        constraint:
+          - type: primary_key
+        tests:
+          - not_null
+          - unique
+      - name: purchase_order_id
+        tests:
+          - not_null
       - name: approved_by
+        constraint:
+          - type: foreign_key
         tests:
           - relationships:
               to: ref('northwind_stg__employees')
@@ -68,12 +82,16 @@ models:
           - dbt_expectations.expect_column_values_to_be_in_type_list:
               column_type_list: [date, datetime, timestamp, timestamp_ntz]
       - name: customer_id
+        constraint:
+          - type: foreign_key
         tests:
           - dbt_expectations.expect_column_to_exist
           - relationships:
               to: ref('northwind_stg__customer')
               field: customer_id
       - name: employee_id
+        constraint:
+          -type: foreign_key
         tests:
           - dbt_expectations.expect_column_to_exist
           - relationships:
@@ -95,6 +113,8 @@ models:
   - name: fact_sales
     columns:
       - name: customer_id
+        constraint:
+          - type: foreign_key
         tests:
           - dbt_expectations.expect_column_to_exist
           - dbt_expectations.expect_column_values_to_not_be_null
@@ -106,6 +126,8 @@ models:
           - dbt_expectations.expect_column_to_exist
 
       - name: employee_id
+        constraint:
+          -type: foreign_key
         tests:
           - dbt_expectations.expect_column_values_to_not_be_null
           - dbt_expectations.expect_column_to_exist
@@ -113,6 +135,8 @@ models:
               to: ref('northwind_stg__employees')
               field: employee_id
       - name: inventory_id
+        constraint:
+          -type: foreign_key
         tests:
           - dbt_expectations.expect_column_to_exist
       - name: order_date
@@ -122,6 +146,8 @@ models:
           - dbt_expectations.expect_column_values_to_be_in_type_list:
               column_type_list: [date, datetime, timestamp, timestamp_ntz]
       - name: order_id
+        constraint:
+          -type: foreign_key
         tests:
           - dbt_expectations.expect_column_values_to_not_be_null
           - dbt_expectations.expect_column_to_exist
@@ -132,10 +158,14 @@ models:
         tests:
           - dbt_expectations.expect_column_to_exist
       - name: product_id
+        constraint:
+          - type: foreign_key
         tests:
           - dbt_expectations.expect_column_values_to_not_be_null
           - dbt_expectations.expect_column_to_exist
       - name: purchase_order_id
+        constraint:
+          - type: foreign_key
         tests:
           - dbt_expectations.expect_column_values_to_not_be_null
           - dbt_expectations.expect_column_to_exist
@@ -153,8 +183,8 @@ models:
           - dbt_expectations.expect_column_to_exist
       - name: status_id
         tests:
-          - dbt_expectations.expect_column_values_to_not_be_null
           - dbt_expectations.expect_column_to_exist
+
       - name: unit_price
         tests:
           - dbt_expectations.expect_column_values_to_not_be_null

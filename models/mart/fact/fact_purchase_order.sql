@@ -1,26 +1,21 @@
-{{
-  config(
-    materialized = 'incremental',
-    on_schema_change = 'fail'
-    )
-}}
+
 
 with source as (
-    select 
+    select
+    {{dbt_utils.generate_surrogate_key(['c.customer_id','pod.purchase_order_id','od.order_id','p.product_id'])}} as unique_key,
     c.customer_id,
     e.employee_id,
-    po.purchase_order_id,
-    p.product_id,
-    p.product_name,
-    p.product_code,
+    pod.purchase_order_id,
+    p.product_id ,
     pod.quantity,
     pod.unit_cost,
     pod.date_received,
     pod.posted_to_inventory,
-    s.supplier_id,
+    pod.inventory_id,
+    po.supplier_id,
     po.created_by,
     po.submitted_date,
-    po.creation_date,
+    date(po.creation_date) as creation_date,
     po.status_id,
     po.expected_date,
     po.shipping_fee,
@@ -30,36 +25,64 @@ with source as (
     po.payment_method,
     po.approved_by,
     po.approved_date,
-    po.submitted_by
-    FROM {{ref('northwind_stg__purchase_orders')}} po
-    LEFT JOIN {{ref('northwind_stg__purchase_order_details')}} pod
-    ON pod.purchase_order_id = po.purchase_order_id
-    LEFT JOIN {{ref('northwind_stg__products')}} p
-    ON p.product_id = pod.product_id
-    LEFT JOIN {{ref('northwind_stg__suppliers')}} s
-    ON s.supplier_id = p.supplier_id
-    LEFT JOIN {{ref('northwind_stg__order_details')}} od
-    ON od.product_id = p.product_id
-    LEFT JOIN {{ref('northwind_stg__orders')}} o
-    ON o.order_id = od.order_id
-    LEFT JOIN {{ref('northwind_stg__customer')}} c
-    ON c.customer_id = o.customer_id
-    LEFT JOIN {{ref('northwind_stg__employees')}} e
-    ON e.employee_id = o.employee_id
+    po.submitted_by,
+    current_timestamp() as ingestion_timestamp
+from {{ref('northwind_stg__purchase_orders')}} po
+left join {{ref('northwind_stg__purchase_order_details')}} pod
+on pod.purchase_order_id = po.purchase_order_id
+left join {{ref('northwind_stg__products')}} p 
+on pod.product_id = p.product_id
+left join {{ref('northwind_stg__order_details')}} od
+on p.product_id = od.product_id
+left join {{ref('northwind_stg__orders')}} o 
+on od.order_id = o.order_id
+left join {{ref('northwind_stg__customer')}} c
+on o.customer_id = c.customer_id
+left join {{ref('northwind_stg__employees')}} e 
+on po.created_by = e.employee_id
+left join {{ref('northwind_stg__suppliers')}} s 
+on s.supplier_id = po.supplier_id
+),
+unique_source as (
+    select *,
+    row_number() over ( 
+        partition by 
+        customer_id,
+        employee_id,
+        product_id,
+        supplier_id,
+        purchase_order_id,
+        inventory_id,
+        creation_date
+        order by
+        creation_date
 
-    
-)
+    ) as row_number
+    from source
+        where
+        customer_id is not null
+        AND 
+        employee_id is not null
+        AND 
+        product_id is not null
+        AND 
+        inventory_id is not null
+        AND 
+        creation_date is not null
+    )
 
 select 
-*
-from source
+* exclude row_number
+from unique_source
 where 
 {% if is_incremental() %}
   {% if var("start_date", False) and var("end_date", False) %}
     creation_date >= '{{ var("start_date") }}'
     AND creation_date < '{{ var("end_date") }}'
+    AND row_number = 1
   {% else %}
     creation_date > (SELECT MAX(creation_date) FROM {{ this }})
+    AND row_number = 1
   {% endif %}
 {% else %}
   1=1

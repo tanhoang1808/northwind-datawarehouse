@@ -7,7 +7,7 @@
 
 with source as (
     select
-    itp.inventory_transactions_id,
+    it.inventory_transactions_id,
     itp.type_name,
     it.transaction_created_date,
     it.transaction_modified_date,
@@ -33,18 +33,26 @@ with source as (
     ON po.purchase_order_id = it.purchase_order_id
     LEFT JOIN {{ref('northwind_stg__purchase_order_details')}} pod
     ON pod.purchase_order_id = po.purchase_order_id
+),
+
+unique_source AS( 
+  select *,
+  row_number() over( partition by inventory_transactions_id,type_name,product_id,product_name order by transaction_created_date) as row_number
+  from source
 )
 
 select 
-*
-from source
+* exclude row_number
+from unique_source
 where 
 {% if is_incremental() %}
   {% if var("start_date", False) and var("end_date", False) %}
     transaction_created_date >= '{{ var("start_date") }}'
     AND transaction_created_date < '{{ var("end_date") }}'
+    AND row_number = 1
   {% else %}
     transaction_created_date > (SELECT MAX(transaction_created_date) FROM {{ this }})
+    AND row_number = 1
   {% endif %}
 {% else %}
   1=1
