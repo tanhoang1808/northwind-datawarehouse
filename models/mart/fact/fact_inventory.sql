@@ -7,6 +7,7 @@
 
 with source as (
     select
+    itp.inventory_transactions_id,
     itp.type_name,
     it.transaction_created_date,
     it.transaction_modified_date,
@@ -22,7 +23,7 @@ with source as (
     CASE
         WHEN it.comments is NULL then 'No Comment'
         ELSE it.comments
-    END as comments,
+    END as comments
     FROM {{ref('northwind_stg__inventory_transactions')}} it
     LEFT JOIN {{ref('northwind_stg__products')}} p
     ON p.product_id = it.product_id
@@ -43,7 +44,7 @@ where
     transaction_created_date >= '{{ var("start_date") }}'
     AND transaction_created_date < '{{ var("end_date") }}'
   {% else %}
-    paid_date > (SELECT MAX(transaction_created_date) FROM {{ this }})
+    transaction_created_date > (SELECT MAX(transaction_created_date) FROM {{ this }})
   {% endif %}
 {% else %}
   1=1
