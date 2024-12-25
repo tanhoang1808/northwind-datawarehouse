@@ -29,11 +29,7 @@ with source as (
 )
 
 select
-*,
-{{dbt_utils.generate_surrogate_key([
-        'customer_id',
-        'last_name',
-        'first_name','email'])}} as customer_identify_key
+*
 FROM
 source 
 
