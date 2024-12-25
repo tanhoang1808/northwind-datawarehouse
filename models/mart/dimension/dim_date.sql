@@ -12,7 +12,7 @@ SELECT
     time_stamp,
     DAY(time_stamp) as day_of_month,
     DAYOFWEEK(time_stamp) as day_of_week,
-    YEAROFWEEK(time_stamp) as year_or_week,
+    YEAROFWEEK(time_stamp) as year_of_week,
     DAYNAME(time_stamp) as day_name,
     WEEKISO(time_stamp) as weekISO,
     DATE_TRUNC('month',time_stamp) as first_day_of_month,
