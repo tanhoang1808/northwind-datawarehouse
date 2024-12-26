@@ -42,6 +42,10 @@ models:
         +materialized: table
       fact:
         +materialized: table
+    obt:
+      +materialized: incremental
+      +enabled: true
+      +schema: obt_northwind
 
 seeds:
   northwind_project_dbt_ytb:

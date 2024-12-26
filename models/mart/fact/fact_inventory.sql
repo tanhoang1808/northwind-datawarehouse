@@ -9,14 +9,13 @@ with source as (
     select
     it.inventory_transactions_id,
     itp.type_name,
+    s.company as supplier_company,
+    s.last_name as supplier_last_name,
+    s.first_name as supplier_first_name,
     it.transaction_created_date,
     it.transaction_modified_date,
     p.product_id,
     p.product_name,
-    CASE
-        WHEN pod.quantity IS NULL THEN 0
-        ELSE pod.quantity 
-    END as quantity,
     it.purchase_order_id as inventory_purchase_order_id,
     po.purchase_order_id as purchase_order_id,
     it.customer_order_id,
@@ -29,15 +28,17 @@ with source as (
     ON p.product_id = it.product_id
     LEFT JOIN {{ref('northwind_stg__inventory_transaction_types')}} itp
     ON it.transaction_type = itp.inventory_transaction_types_id
-    LEFT JOIN {{ref('northwind_stg__purchase_orders')}} po
-    ON po.purchase_order_id = it.purchase_order_id
     LEFT JOIN {{ref('northwind_stg__purchase_order_details')}} pod
-    ON pod.purchase_order_id = po.purchase_order_id
+    ON pod.inventory_id = it.inventory_transactions_id
+    LEFT JOIN {{ref('northwind_stg__purchase_orders')}} po
+    ON po.purchase_order_id = pod.purchase_order_id
+    LEFT JOIN {{ref('northwind_stg__suppliers')}} s
+    ON  po.supplier_id = s.supplier_id
 ),
 
 unique_source AS( 
   select *,
-  row_number() over( partition by inventory_transactions_id,type_name,product_id,product_name order by transaction_created_date) as row_number
+  row_number() over( partition by supplier_company,inventory_transactions_id,type_name,product_id,product_name order by transaction_created_date) as row_number
   from source
 )
 

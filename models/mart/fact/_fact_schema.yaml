@@ -112,6 +112,12 @@ models:
   ### FACT_SALES ###
   - name: fact_sales
     columns:
+      - name: sales_unique_key
+        constraint:
+          - type: primary_key
+        tests:
+          - unique
+          - not_null
       - name: customer_id
         constraint:
           - type: foreign_key
@@ -134,11 +140,7 @@ models:
           - relationships:
               to: ref('northwind_stg__employees')
               field: employee_id
-      - name: inventory_id
-        constraint:
-          -type: foreign_key
-        tests:
-          - dbt_expectations.expect_column_to_exist
+
       - name: order_date
         tests:
           - dbt_expectations.expect_column_values_to_not_be_null
@@ -163,15 +165,7 @@ models:
         tests:
           - dbt_expectations.expect_column_values_to_not_be_null
           - dbt_expectations.expect_column_to_exist
-      - name: purchase_order_id
-        constraint:
-          - type: foreign_key
-        tests:
-          - dbt_expectations.expect_column_values_to_not_be_null
-          - dbt_expectations.expect_column_to_exist
-          - relationships:
-              to: ref('northwind_stg__purchase_order')
-              field: purchase_order_id
+
       - name: quantity
         tests:
           - dbt_expectations.expect_column_values_to_not_be_null
