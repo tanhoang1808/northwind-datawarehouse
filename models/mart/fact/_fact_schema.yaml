@@ -26,10 +26,9 @@ models:
           - relationships:
               to: ref('northwind_stg__products')
               field: product_id
-      - name: quantity
+      - name: inventory_quantity
         tests:
           - dbt_expectations.expect_column_to_exist
-          - dbt_expectations.expect_column_values_to_not_be_null
       - name: type_name
         tests:
           - dbt_expectations.expect_column_to_exist

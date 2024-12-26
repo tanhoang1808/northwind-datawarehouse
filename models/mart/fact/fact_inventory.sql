@@ -16,6 +16,7 @@ with source as (
     it.transaction_modified_date,
     p.product_id,
     p.product_name,
+    it.quantity as inventory_quantity,
     it.purchase_order_id as inventory_purchase_order_id,
     po.purchase_order_id as purchase_order_id,
     it.customer_order_id,
