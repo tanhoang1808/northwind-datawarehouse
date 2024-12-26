@@ -16,7 +16,7 @@ test-paths: ["tests"]
 seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
-
+asset-paths: ["assets"]
 clean-targets: # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
@@ -34,12 +34,22 @@ models:
       +materialized: view
       +enabled: true
       +schema: stg_northwind
-    warehouse:
-      +schema: wh_northwind
+    mart:
+      +post-hook:
+        - "GRANT SELECT ON {{this}} TO ROLE ANALYSIS"
+      +schema: mart_northwind
       dimension:
         +materialized: table
+      fact:
+        +materialized: table
+    obt:
+      +post-hook:
+        - "GRANT SELECT ON {{this}} TO ROLE ANALYSIS"
+      +materialized: incremental
+      +enabled: true
+      +schema: obt_northwind
 
 seeds:
   northwind_project_dbt_ytb:
     database: northwind
-    +schema: RAW
+    +schema: NORTHWIND_RAW

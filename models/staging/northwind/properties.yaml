@@ -1,0 +1,109 @@
+version: 2
+models:
+  - name: northwind_stg__employees
+    columns:
+      - name: employee_id
+        tests:
+          - unique
+          - not_null
+  - name: northwind_stg__customer
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+
+  - name: northwind_stg__employee_privileges
+    columns:
+      - name: privilege_id
+        tests:
+          - unique
+          - not_null
+
+  - name: northwind_stg__inventory_transaction_types
+    columns:
+      - name: inventory_transaction_types_id
+        tests:
+          - not_null
+          - unique
+  - name: northwind_stg__inventory_transactions
+    columns:
+      - name: inventory_transactions_id
+        tests:
+          - not_null
+          - unique
+  - name: northwind_stg__invoices
+    columns:
+      - name: id
+        tests:
+          - not_null
+          - unique
+
+  - name: northwind_stg__order_details_status
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
+
+  - name: northwind_stg__order_details
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
+
+  - name: northwind_stg__order_status
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
+  - name: northwind_stg__orders_tax_status
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
+  - name: northwind_stg__orders
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+  - name: northwind_stg__privileges
+    columns:
+      - name: id
+        tests:
+          - not_null
+          - unique
+  - name: northwind_stg__products
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+  - name: northwind_stg__purchase_order_details
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
+      - name: quantity
+        tests:
+          - greater_than_zero
+
+  - name: northwind_stg__purchase_orders
+    columns:
+      - name: purchase_order_id
+        tests:
+          - unique
+          - not_null
+
+  - name: northwind_stg__sales_reports
+  - name: northwind_stg__suppliers
+    columns:
+      - name: supplier_id
+        tests:
+          - unique
+          - not_null
