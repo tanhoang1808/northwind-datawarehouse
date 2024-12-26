@@ -2,7 +2,7 @@
 
 ### This project is built based on the Northwind dataset and represents Kimball's approach to creating a replica of the Northwind Data Warehouse.
 
-![Input Schema](assets/architecture.png)
+![Input Schema](assets/architecture_v1.png)
 
 The purpose of this project is to demonstrate my knowledge and capability in transforming data using SQL and dbt.
 
