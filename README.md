@@ -2,7 +2,7 @@
 
 ![Input Schema](assets/architecture_v1.png)
 
-The purpose of this project is to demonstrate my knowledge and capability in transforming data using SQL and dbt.
+The purpose of this project is to demonstrate my knowledge and capability in transforming data using SQL and dbt and using SnowFlake to act as Data Warehouse
 
 ### Key Design Aspects of the Data Warehouse:
 
