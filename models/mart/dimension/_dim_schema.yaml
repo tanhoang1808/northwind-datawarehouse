@@ -5,6 +5,7 @@ models:
 
     columns:
       - name: customer_id
+        description: "Unique ID"
         tests:
           - dbt_expectations.expect_column_to_exist
           - unique
@@ -15,6 +16,7 @@ models:
       - name: dim_employees
         columns:
           - name: employee_id
+            description: "Unique ID"
             tests:
               - unique
               - not_null
@@ -24,6 +26,7 @@ models:
   - name: dim_products
     columns:
       - name: product_id
+        description: "Unique ID"
         tests:
           - dbt_expectations.expect_column_to_exist
           - unique

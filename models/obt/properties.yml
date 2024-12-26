@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: product_inventory
+    description: '{{ (doc("product_inventory")) }}'
+  - name: customer_reporting
+    description: '{{ (doc("customer_reporting")) }}'
+  - name: sales_overview
+    description: '{{ (doc("sales_overview")) }}'
