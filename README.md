@@ -1,5 +1,3 @@
-{% docs __overview__ %}
-
 ### This project is built based on the Northwind dataset and represents Kimball's approach to creating a replica of the Northwind Data Warehouse.
 
 ![Input Schema](assets/architecture_v1.png)
@@ -28,5 +26,3 @@ The purpose of this project is to demonstrate my knowledge and capability in tra
 ### The Fact-Dimension model can be represented in the physical layer as shown below:
 
 ![Fact-Dimension Model](assets/northwind_physical.png)
-
-{% enddocs %}
