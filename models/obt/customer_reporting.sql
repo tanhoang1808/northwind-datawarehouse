@@ -47,10 +47,10 @@ with source as (
 	fpo.approved_date
 	order by creation_date) as row_number
 	
-    from {{ref('fact_purchase_order')}} fpo
-    JOIN {{ref('dim_customers')}} dc
+    from {{ref('fact_purchase_order',v='1')}} fpo
+    JOIN {{ref('dim_customers',v='1')}} dc
     ON fpo.customer_id = dc.customer_id
-    JOIN {{ref('dim_products')}} dp
+    JOIN {{ref('dim_products',v='1')}} dp
     ON fpo.product_id = dp.product_id
     
 )

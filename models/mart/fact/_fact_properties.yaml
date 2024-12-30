@@ -50,7 +50,7 @@ models:
 
   ### FACT_PURCHASE_ORDER ###
   - name: fact_purchase_order
-    description: "fact_purchase_order"
+    description: "fact_purchase_order for customer reporting"
     latest_version: 1
     columns:
       - name: unique_key
@@ -113,7 +113,7 @@ models:
           - not_null
           - dbt_expectations.expect_column_values_to_be_of_type:
               column_type: number
-    version:
+    versions:
       - v: 1
   ### FACT_SALES ###
   - name: fact_sales
@@ -193,5 +193,5 @@ models:
           - dbt_expectations.expect_column_to_exist
           - dbt_expectations.expect_column_values_to_be_in_type_list:
               column_type_list: [number, float]
-    version:
+    versions:
       - v: 1

@@ -21,8 +21,8 @@ with source as(
     fi.TRANSACTION_MODIFIED_DATE,
     fi.TYPE_NAME,
     fi.COMMENTS
-    from {{ref("fact_inventory")}} fi
-    LEFT JOIN {{ref('dim_products')}} dp
+    from {{ref("fact_inventory",v='1')}} fi
+    LEFT JOIN {{ref('dim_products',v='1')}} dp
     ON dp.product_id = fi.product_id
     
 )
