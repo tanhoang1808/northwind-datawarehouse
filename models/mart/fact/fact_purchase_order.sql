@@ -1,4 +1,10 @@
-
+{{
+  config(
+    materialized = 'incremental',
+    on_schema_change = 'fail',
+    tags = 'fpo'
+    )
+}}
 
 with source as (
     select
@@ -8,25 +14,25 @@ with source as (
     pod.purchase_order_id,
     p.product_id ,
     pod.quantity,
-    pod.unit_cost,
+    pod.unit_cost::number as unit_cost,
     pod.date_received,
     pod.posted_to_inventory,
     pod.inventory_id,
     po.supplier_id,
     po.created_by,
-    po.submitted_date,
+    date(po.submitted_date) as submitted_date ,
     date(po.creation_date) as creation_date,
     po.status_id,
-    po.expected_date,
-    po.shipping_fee,
-    po.taxes,
-    po.payment_date,
-    po.payment_amount,
-    po.payment_method,
+    date(po.expected_date) as expected_date,
+    po.shipping_fee::float as shipping_fee,
+    po.taxes::float as taxes,
+    TO_TIMESTAMP_NTZ(po.payment_date) as payment_date,
+    po.payment_amount::float as payment_amount,
+    (po.payment_method::varchar) as payment_method,
     po.approved_by,
     po.approved_date,
     po.submitted_by,
-    current_timestamp() as ingestion_timestamp
+    TO_TIMESTAMP_NTZ(current_timestamp()) as ingestion_timestamp
 from {{ref('northwind_stg__purchase_orders')}} po
 left join {{ref('northwind_stg__purchase_order_details')}} pod
 on pod.purchase_order_id = po.purchase_order_id

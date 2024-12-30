@@ -1,7 +1,8 @@
 {{
   config(
     materialized = 'incremental',
-    on_schema_change = 'fail'
+    on_schema_change = 'fail',
+    tags = 'fs'
   )
 }}
 
@@ -17,7 +18,7 @@ with source as (
     od.unit_price,
     od.discount,
     od.status_id,
-    od.date_allocated,
+    TO_TIMESTAMP_NTZ(od.date_allocated) as date_allocated ,
     o.order_date,
     o.shipped_date,
     o.paid_date
