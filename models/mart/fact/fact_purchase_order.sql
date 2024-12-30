@@ -46,7 +46,8 @@ on s.supplier_id = po.supplier_id
 unique_source as (
     select *,
     row_number() over ( 
-        partition by 
+        partition by
+        unique_key,
         customer_id,
         employee_id,
         product_id,
