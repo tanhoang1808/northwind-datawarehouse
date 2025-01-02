@@ -15,6 +15,8 @@ This project is built based on the Northwind dataset and represents Kimball's ap
   ```
 
   - Database : Snowflake
+  - Environment : dbt-core
+  - editor : Visual Studio Code
 
     - Init warehouse , database, user and role for transformation
 
@@ -47,9 +49,28 @@ This project is built based on the Northwind dataset and represents Kimball's ap
 
     ```
 
-  ```
+## Start the Pipeline
 
+- Activate the Python venv (**_northwind_dbt_env_**)
+
+```bash
+   source northwind_dbt_env/bin/activate
+```
+
+- Init dbt project
+  ```bash
+     dbt init
   ```
+- Create `packages.yml`Install packages
+  ```bash
+      dbt deps
+  ```
+- Import dataset to seed in csv format
+  ```bash
+     dbt seed
+  ```
+- Structure `models` folder:
+  models/ ├── mart/ │ ├── dimension/ │ └── fact/ ├── obt/ │ ├── \_obt_docs.md │ ├── \_obt_properties.yaml │ ├── customer_reporting.sql │ ├── product_inventory.sql │ └── sales_overview.sql ├── staging/ └── northwind/ ├── customer/ │ └── northwind_stg**customer.sql ├── employees/ │ ├── northwind_stg**employee_privileges.sql │ └── northwind_stg**employees.sql ├── etcera/ │ ├── northwind_stg**invoices.sql │ ├── northwind_stg**privileges.sql │ ├── northwind_stg**sales_reports.sql │ └── northwind_stg**suppliers.sql ├── inventory/ │ ├── northwind_stg**inventory_transaction_types.sql │ └── northwind_stg**inventory_transactions.sql ├── orders/ │ ├── northwind_stg**order_details_status.sql │ ├── northwind_stg**order_details.sql │ ├── northwind_stg**order_status.sql │ ├── northwind_stg**orders_tax_status.sql │ └── northwind_stg**orders.sql ├── products/ │ └── northwind_stg**products.sql ├── purchase_order/ │ ├── northwind_stg**purchase_order_details.sql │ ├── northwind_stg**purchase_order_status.sql │ └── northwind_stg**purchase_orders.sql ├── \_northwind**sources.yml ├── \_staging_properties.yaml └── \_northwind**docs.md
 
 ### Key Design Aspects of the Data Warehouse:
 
