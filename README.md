@@ -68,7 +68,7 @@ This project is built based on the `Northwind` dataset and represents `Kimball's
   ```bash
       dbt deps
   ```
-- Import dataset to seed in csv format
+- Import dataset to `seed` folder in csv format
   ```bash
      dbt seed
   ```
