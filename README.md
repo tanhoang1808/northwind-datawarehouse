@@ -139,9 +139,4 @@ This project is built based on the Northwind dataset and represents Kimball's ap
 
 ### The Fact-Dimension model can be represented in the physical layer as shown below:
 
-### Packages used in in project:
-
-- dbt-utils
-- dbt-expectations
-
 ![Fact-Dimension Model](assets/northwind_physical.png)
