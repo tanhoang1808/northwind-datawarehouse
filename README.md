@@ -1,8 +1,8 @@
 # Description
 
-## Architecture Design
+This project is built based on the `Northwind` dataset and represents `Kimball's` approach to creating a replica of the Northwind Data Warehouse.
 
-This project is built based on the Northwind dataset and represents Kimball's approach to creating a replica of the Northwind Data Warehouse.
+## Architecture Design
 
 ![Input Schema](assets/architecture_v1.png)
 
