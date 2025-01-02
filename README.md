@@ -9,7 +9,8 @@ This project is built based on the Northwind dataset and represents Kimball's ap
 - Lib : dbt-ultils,dbt-expectations
 - Install virtual environment
   ```bash
-     pip3 -m venv demo
+     pip3 -m venv northwind_project_env
+     pip3 install dbt-core dbt-snowflake
   ```
 
 ### Key Design Aspects of the Data Warehouse:
