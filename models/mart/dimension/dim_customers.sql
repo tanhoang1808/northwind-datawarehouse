@@ -1,4 +1,5 @@
 {{ config( materialized = 'table' ) }}
+
 WITH source AS
 (
 	SELECT  c.customer_id

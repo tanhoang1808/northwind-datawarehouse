@@ -45,7 +45,7 @@ where
     AND paid_date < '{{ var("end_date") }}'
     AND row_number = 1
   {% else %}
-    paid_date > (SELECT MAX(paid_date) FROM {{ this }})
+    paid_date > date_add(day,-1,(SELECT MAX(paid_date) FROM {{ this }}))
     AND row_number = 1
   {% endif %}
 {% else %}

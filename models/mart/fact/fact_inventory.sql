@@ -54,7 +54,7 @@ where
     AND transaction_created_date < '{{ var("end_date") }}'
     AND row_number = 1
   {% else %}
-    transaction_created_date > (SELECT MAX(transaction_created_date) FROM {{ this }})
+    transaction_created_date > date_add(day, -1, (SELECT MAX(transaction_created_date) FROM {{ this }}))
     AND row_number = 1
   {% endif %}
 {% else %}

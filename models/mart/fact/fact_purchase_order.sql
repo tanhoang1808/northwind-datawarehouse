@@ -88,7 +88,7 @@ where
     AND creation_date < '{{ var("end_date") }}'
     AND row_number = 1
   {% else %}
-    creation_date > (SELECT MAX(creation_date) FROM {{ this }})
+    creation_date > date_add(day,-1,(SELECT MAX(creation_date) FROM {{ this }}))
     AND row_number = 1
   {% endif %}
 {% else %}
