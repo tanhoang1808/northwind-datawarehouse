@@ -1,8 +1,16 @@
-### This project is built based on the Northwind dataset and represents Kimball's approach to creating a replica of the Northwind Data Warehouse.
+# Description
 
+This project is built based on the Northwind dataset and represents Kimball's approach to creating a replica of the Northwind Data Warehouse.
 ![Input Schema](assets/architecture_v1.png)
 
-The purpose of this project is to demonstrate my knowledge and capability in transforming data using SQL and dbt and using SnowFlake to act as Data Warehouse
+## Technique
+
+- SQL
+- Lib : dbt-ultils,dbt-expectations
+- Install virtual environment
+  ```bash
+     pip3 -m venv demo
+  ```
 
 ### Key Design Aspects of the Data Warehouse:
 
