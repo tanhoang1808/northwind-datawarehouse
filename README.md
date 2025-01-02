@@ -13,7 +13,7 @@ This project is built based on the Northwind dataset and represents Kimball's ap
 - Install virtual environment
 
   ```bash
-     pip3 -m venv northwind_project_env
+     pip3 -m venv northwind_dbt_env
      pip3 install dbt-core dbt-snowflake
   ```
 
