@@ -8,9 +8,47 @@ This project is built based on the Northwind dataset and represents Kimball's ap
 - SQL
 - Lib : dbt-ultils,dbt-expectations
 - Install virtual environment
+
   ```bash
      pip3 -m venv northwind_project_env
      pip3 install dbt-core dbt-snowflake
+  ```
+
+  - Database : Snowflake
+
+    - Init warehouse , database, user and role for transformation
+
+    ```bash
+      USE ROLE ACCOUNTADMIN
+      CREATE ROLE IF NOT EXISTS TRANSFORM
+      GRANT ROLE TRANSFORM TO ROLE ACCOUNTADMIN
+      CREATE WAREHOUSE IF NOT EXISTS NORTHWIND_WH;
+
+
+      CREATE USER IF NOT EXISTS ethan
+      PASSWORD = '123456'
+      LOGIN_NAME = 'ethan'
+      DEFAULT_WAREHOUSE = 'NORTHWIND_WH'
+      DEFAULT_ROLE = TRANSFORM
+      DEFAULT_NAMESPACE = 'NORTHWIND'
+
+      GRANT ROLE TRANSFORM TO USER ethan
+      CREATE DATABASE IF NOT EXISTS NORTHWIND
+      DROP SCHEMA IF EXISTS NORTHWIND.RAW
+      CREATE SCHEMA IF NOT EXISTS NORTHWIND.RAW
+
+
+      GRANT ALL ON WAREHOUSE NORTHWIND_WH TO ROLE TRANSFORM
+      GRANT ALL ON DATABASE NORTHWIND to ROLE TRANSFORM
+      GRANT ALL ON ALL SCHEMAS IN DATABASE NORTHWIND to ROLE TRANSFORM
+      GRANT ALL ON FUTURE SCHEMAS IN DATABASE NORTHWIND to ROLE TRANSFORM
+      GRANT ALL ON ALL TABLES IN SCHEMA NORTHWIND.RAW to ROLE TRANSFORM
+      GRANT ALL ON FUTURE TABLES IN SCHEMA NORTHWIND.RAW to ROLE TRANSFORM
+
+    ```
+
+  ```
+
   ```
 
 ### Key Design Aspects of the Data Warehouse:
