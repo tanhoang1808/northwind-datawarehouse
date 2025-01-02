@@ -2,7 +2,8 @@
   config(
     materialized = 'incremental',
     on_schema_change = 'fail',
-    tags = 'fs'
+    tags = 'fs',
+    unique_key = 'sales_unique_key'
   )
 }}
 

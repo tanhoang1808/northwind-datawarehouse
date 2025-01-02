@@ -2,7 +2,8 @@
   config(
     materialized = 'incremental',
     on_schema_change = 'fail',
-    tags = 'fi'
+    tags = 'fi',
+    unique_key = 'inventory_transaction_id'
     )
 }}
 

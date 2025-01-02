@@ -3,6 +3,7 @@
     materialized = 'incremental',
     on_schema_change = 'fail',
     tags = 'fpo'
+    unique_key = 'unique_key'
     )
 }}
 
