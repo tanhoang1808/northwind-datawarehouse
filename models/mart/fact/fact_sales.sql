@@ -52,3 +52,10 @@ where
 {% else %}
   1=1
 {% endif %}
+
+
+{%if target.name == 'dev'%}
+
+    {{limit_ten_row}}
+
+  {%endif%}
