@@ -3,7 +3,7 @@
     materialized = 'incremental',
     on_schema_change = 'fail',
     tags = 'fi',
-    unique_key = 'inventory_transaction_id'
+    unique_key = 'inventory_transactions_id'
     )
 }}
 
@@ -55,7 +55,7 @@ where
     AND transaction_created_date < '{{ var("end_date") }}'
     AND row_number = 1
   {% else %}
-    transaction_created_date > date_add(day, -1, (SELECT MAX(transaction_created_date) FROM {{ this }}))
+    transaction_created_date > DATEADD(day, -1, (SELECT MAX(transaction_created_date) FROM {{ this }}))
     AND row_number = 1
   {% endif %}
 {% else %}
@@ -64,6 +64,6 @@ where
 
   {%if target.name == 'dev'%}
 
-    {{limit_ten_row}}
+    {{limit_ten_row()}}
 
   {%endif%}

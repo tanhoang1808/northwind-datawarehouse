@@ -2,7 +2,7 @@
   config(
     materialized = 'incremental',
     on_schema_change = 'fail',
-    tags = 'fpo'
+    tags = 'fpo',
     unique_key = 'unique_key'
     )
 }}
@@ -89,7 +89,7 @@ where
     AND creation_date < '{{ var("end_date") }}'
     AND row_number = 1
   {% else %}
-    creation_date > date_add(day,-1,(SELECT MAX(creation_date) FROM {{ this }}))
+    creation_date > DATEADD(day,-1,(SELECT MAX(creation_date) FROM {{ this }}))
     AND row_number = 1
   {% endif %}
 {% else %}
@@ -98,6 +98,6 @@ where
 
 {%if target.name == 'dev'%}
 
-    {{limit_ten_row}}
+    {{limit_ten_row()}}
 
   {%endif%}
